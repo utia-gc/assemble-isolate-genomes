@@ -1,0 +1,58 @@
+nextflow_process {
+
+    name "Test Process spades"
+    script "modules/spades.nf"
+    process "spades"
+
+    test("spades produces an assembly -- SE reads") {
+        // instantiate helper objects
+        def readsLane1 = new ReadsSELane1()
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+            }
+            process {
+                """
+                input[0] = [
+                    [
+                        sampleName:   "${readsLane1.getSampleName()}",
+                        lane:         "${readsLane1.getLane()}",
+                        readType:     "${readsLane1.getReadType()}",
+                        trimStatus:   "raw",
+                    ],
+                    file("${readsLane1.getR1()}"),
+                    file("${readsLane1.getR2()}")
+                ]
+                """
+            }
+        }
+
+        then {
+            // test process success
+            assert process.success
+
+            // test scaffolds
+            with(process.out.scaffolds) {
+                assert size() == 1
+                with(get(0)) {
+                    assert get(1) ==~ /^.*\/scaffolds.fasta/
+                }
+            }
+            // test contigs
+            with(process.out.contigs) {
+                assert size() == 1
+                with(get(0)) {
+                    assert get(1) ==~ /^.*\/contigs.fasta/
+                }
+            }
+
+            // test scaffolds and contigs reproducibility
+            assert snapshot(process.out.scaffolds).match()
+            assert snapshot(process.out.contigs).match()
+        }
+
+    }
+
+}
