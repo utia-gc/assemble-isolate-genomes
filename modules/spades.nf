@@ -29,7 +29,12 @@ process spades {
             """
         } else if(metadata.readType == 'paired') {
             """
-            echo "Hello world!"
+            spades.py \\
+                --threads ${task.cpus} \\
+                -o ${stemName} \\
+                -1 ${reads1} \\
+                -2 ${reads2} \\
+                ${args}
             """
         }
 }
