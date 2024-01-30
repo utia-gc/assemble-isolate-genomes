@@ -7,12 +7,19 @@ process spades {
     label 'med_mem'
     label 'med_time'
 
+    publishDir(
+        path:    "${params.publishDirData}/assemblies",
+        mode:    "${params.publishMode}",
+        pattern: '*'
+    )
+
     input:
         tuple val(metadata), path(reads1), path(reads2)
 
     output:
-        tuple val(metadata), path("*/scaffolds.fasta"), emit: scaffolds
-        tuple val(metadata), path("*/contigs.fasta"), emit: contigs
+        tuple val(metadata), path('*/scaffolds.fasta'), emit: scaffolds
+        tuple val(metadata), path('*/contigs.fasta'),   emit: contigs
+        tuple val(metadata), path('*'),                 emit: out_dir
 
     script:
         String stemName = MetadataUtils.buildStemName(metadata)
