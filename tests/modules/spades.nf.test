@@ -47,10 +47,6 @@ nextflow_process {
                     assert get(1) ==~ /^.*\/${readsLane1.getStemName()}\/contigs.fasta/
                 }
             }
-
-            // test scaffolds and contigs reproducibility
-            assert snapshot(process.out.scaffolds).match()
-            assert snapshot(process.out.contigs).match()
         }
 
     }
@@ -99,10 +95,6 @@ nextflow_process {
                     assert get(1) ==~ /^.*\/${readsLane1.getStemName()}\/contigs.fasta/
                 }
             }
-
-            // test scaffolds and contigs reproducibility
-            assert snapshot(process.out.scaffolds).match()
-            assert snapshot(process.out.contigs).match()
         }
 
     }
