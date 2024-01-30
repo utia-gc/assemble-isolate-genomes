@@ -37,14 +37,14 @@ nextflow_process {
             with(process.out.scaffolds) {
                 assert size() == 1
                 with(get(0)) {
-                    assert get(1) ==~ /^.*\/scaffolds.fasta/
+                    assert get(1) ==~ /^.*\/${readsLane1.getStemName()}\/scaffolds.fasta/
                 }
             }
             // test contigs
             with(process.out.contigs) {
                 assert size() == 1
                 with(get(0)) {
-                    assert get(1) ==~ /^.*\/contigs.fasta/
+                    assert get(1) ==~ /^.*\/${readsLane1.getStemName()}\/contigs.fasta/
                 }
             }
 
