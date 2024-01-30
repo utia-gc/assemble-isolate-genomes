@@ -23,7 +23,8 @@ process spades {
             """
             spades.py \\
                 -o ${stemName} \\
-                -s ${reads1}
+                -s ${reads1} \\
+                ${args}
             """
         } else if(metadata.readType == 'paired') {
             """
