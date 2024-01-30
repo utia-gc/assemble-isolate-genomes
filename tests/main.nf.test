@@ -106,7 +106,7 @@ nextflow_pipeline {
         then {
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 14
+            assert workflow.trace.succeeded().size() == 18
 
             // test raw FastQC html reports and zip files published to reports dir
             assert path("${params.publishDirReports}/.fastqc/${readsSELane1.getStemName()}_raw_R1_fastqc.html").exists()
@@ -139,6 +139,31 @@ nextflow_pipeline {
             assert path("${params.publishDirReports}/.reads/trim/${readsSELane2.getStemName()}_fastp.json").exists()
             assert path("${params.publishDirReports}/.reads/trim/${readsPELane1.getStemName()}_fastp.json").exists()
             assert path("${params.publishDirReports}/.reads/trim/${readsPELane2.getStemName()}_fastp.json").exists()
+            // test assemblies outputs published to data dir
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/scaffolds.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/scaffolds.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/scaffolds.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.paths").exists()
             // test MultiQC reports and data published to reports dir
             assert path("${params.publishDirReports}/multiqc/reads/reads.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads/reads_data/").exists()
@@ -169,7 +194,7 @@ nextflow_pipeline {
         then {
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 14
+            assert workflow.trace.succeeded().size() == 18
 
             // test raw FastQC html reports and zip files published to reports dir
             assert path("${params.publishDirReports}/.fastqc/${readsSELane1.getStemName()}_raw_R1_fastqc.html").exists()
@@ -202,6 +227,31 @@ nextflow_pipeline {
             assert path("${params.publishDirReports}/.reads/trim/${readsSELane2.getStemName()}_cutadapt-log.txt").exists()
             assert path("${params.publishDirReports}/.reads/trim/${readsPELane1.getStemName()}_cutadapt-log.txt").exists()
             assert path("${params.publishDirReports}/.reads/trim/${readsPELane2.getStemName()}_cutadapt-log.txt").exists()
+            // test assemblies outputs published to data dir
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/scaffolds.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/scaffolds.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/scaffolds.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.paths").exists()
             // test MultiQC reports and data published to reports dir
             assert path("${params.publishDirReports}/multiqc/reads/reads.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads/reads_data/").exists()
