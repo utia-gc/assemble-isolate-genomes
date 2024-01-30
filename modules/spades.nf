@@ -22,6 +22,7 @@ process spades {
         if(metadata.readType == 'single') {
             """
             spades.py \\
+                --threads ${task.cpus} \\
                 -o ${stemName} \\
                 -s ${reads1} \\
                 ${args}
