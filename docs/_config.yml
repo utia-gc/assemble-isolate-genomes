@@ -1,11 +1,11 @@
-title: utia-gc/ngs
-description: A Nextflow pipeline for base NGS analysis.
+title: utia-gc/assemble-isolate-genomes
+description: A Nextflow pipeline for assembling isolate genomes. Based on utia-gc/ngs.
 theme: just-the-docs
 
 url: https://utia-gc.github.io
 
 aux_links:
-  utia-gc/ngs on GitHub: https://github.com/utia-gc/ngs
+  utia-gc/assemble-isolate-genomes on GitHub: https://github.com/utia-gc/assemble-isolate-genomes
 
 plugins:
   - jekyll-relative-links
