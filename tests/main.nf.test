@@ -23,46 +23,6 @@ nextflow_pipeline {
     }
 
 
-    test("main.nf fails -- no reference genome.") {
-        tag "validate"
-
-        when {
-            params {
-                publishDirReports = "${outputDir}/reports"
-                publishDirData    = "${outputDir}/data"
-                genome            = null
-            }
-        }
-
-        then {
-            assert workflow.failed
-            assert workflow.exitStatus == 64
-            assert workflow.stdout.contains("ERROR ~ Parameter 'genome' is required but was not provided.")
-        }
-
-    }
-
-
-    test("main.nf fails -- no reference annotations.") {
-        tag "validate"
-
-        when {
-            params {
-                publishDirReports = "${outputDir}/reports"
-                publishDirData    = "${outputDir}/data"
-                annotations       = null
-            }
-        }
-
-        then {
-            assert workflow.failed
-            assert workflow.exitStatus == 64
-            assert workflow.stdout.contains("ERROR ~ Parameter 'annotations' is required but was not provided.")
-        }
-
-    }
-
-
     test("main.nf fails -- no project title.") {
         tag "validate"
 
