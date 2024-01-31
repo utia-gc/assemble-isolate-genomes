@@ -204,6 +204,11 @@ nextflow_pipeline {
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/assembly_graph.fastg").exists()
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.paths").exists()
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.paths").exists()
+            // test QUAST reports published to reports dir
+            assert path("${params.publishDirReports}/.assemblies/${readsSELane1.getStemName()}/report.tsv").exists()
+            assert path("${params.publishDirReports}/.assemblies/${readsSELane2.getStemName()}/report.tsv").exists()
+            assert path("${params.publishDirReports}/.assemblies/${readsPELane1.getStemName()}/report.tsv").exists()
+            assert path("${params.publishDirReports}/.assemblies/${readsPELane2.getStemName()}/report.tsv").exists()
             // test MultiQC reports and data published to reports dir
             assert path("${params.publishDirReports}/multiqc/reads/reads.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads/reads_data/").exists()
@@ -292,6 +297,11 @@ nextflow_pipeline {
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/assembly_graph.fastg").exists()
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.paths").exists()
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.paths").exists()
+            // test QUAST reports published to reports dir
+            assert path("${params.publishDirReports}/.assemblies/${readsSELane1.getStemName()}/report.tsv").exists()
+            assert path("${params.publishDirReports}/.assemblies/${readsSELane2.getStemName()}/report.tsv").exists()
+            assert path("${params.publishDirReports}/.assemblies/${readsPELane1.getStemName()}/report.tsv").exists()
+            assert path("${params.publishDirReports}/.assemblies/${readsPELane2.getStemName()}/report.tsv").exists()
             // test MultiQC reports and data published to reports dir
             assert path("${params.publishDirReports}/multiqc/reads/reads.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads/reads_data/").exists()
@@ -380,6 +390,11 @@ nextflow_pipeline {
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/assembly_graph.fastg").exists()
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.paths").exists()
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.paths").exists()
+            // test QUAST reports published to reports dir
+            assert path("${params.publishDirReports}/.assemblies/${readsSELane1.getStemName()}/report.tsv").exists()
+            assert path("${params.publishDirReports}/.assemblies/${readsSELane2.getStemName()}/report.tsv").exists()
+            assert path("${params.publishDirReports}/.assemblies/${readsPELane1.getStemName()}/report.tsv").exists()
+            assert path("${params.publishDirReports}/.assemblies/${readsPELane2.getStemName()}/report.tsv").exists()
             // test MultiQC reports and data published to reports dir
             assert path("${params.publishDirReports}/multiqc/reads/reads.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads/reads_data/").exists()
