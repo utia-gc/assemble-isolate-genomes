@@ -16,6 +16,7 @@ nextflow.enable.dsl=2
 include { CHECK_QUALITY  } from "./workflows/check_quality.nf"
 include { PREPARE_INPUTS } from "./workflows/prepare_inputs.nf"
 include { PROCESS_READS  } from "./workflows/process_reads.nf"
+include { quast          } from './modules/quast.nf'
 include { spades         } from './modules/spades.nf'
 
 /*
@@ -42,6 +43,12 @@ workflow {
     ch_trim_log        = PROCESS_READS.out.trim_log
 
     spades(ch_reads_pre_align)
+
+    quast(
+        spades.out.contigs,
+        ch_genome,
+        ch_annotations
+    )
 
     CHECK_QUALITY(
         ch_reads_raw,
