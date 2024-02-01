@@ -39,51 +39,17 @@ flowchart LR
         Trim
         log
     ")]
-    individual_alignments[("
-        Individual
-        alignments
-    ")]
-    merged_alignments[("
-        Merged
-        alignments
+    contigs[("
+        Contigs
     ")]
 
     %% list all the Nextflow processes
     fastp{"fastp"}
     cutadapt{"cutadapt"}
     fastqc{"FastQC"}
-    seq_depth{"
-        Sequencing
-        Depth
-    "}
-    bwa_mem2{"bwa-mem2"}
-    STAR{"STAR"}
-    samtools_sort{"
-        samtools
-        sort
-        index
-    "}
-    gatk_MergeSamFiles{"
-        gatk
-        MergeSamFiles
-    "}
-    gatk_MarkDuplicates{"
-        gatk
-        MarkDuplicates
-    "}
-    samtools_idxstats{"
-        samtools
-        idxstats
-    "}
-    samtools_flagstat{"
-        samtools
-        flagstat
-    "}
-    samtools_stats{"
-        samtools
-        stats
-    "}
-
+    spades{"SPAdes"}
+    quast{"QUAST"}
+    
     %% list all subgraphs for Nextflow subworkflows/workflows with options
     subgraph inputs["Input Files"]
     samplesheet
@@ -94,17 +60,16 @@ flowchart LR
     fastp
     cutadapt
     end
-    subgraph map_reads["Map Reads"]
-    bwa_mem2
-    STAR
+    subgraph assemble_genomes["Assemble genomes"]
+    spades
     end
     subgraph publish_reports["Publish Reports"]
     reads_mqc
-    alignments_mqc
     full_mqc
+    assembly_reports
     end
     subgraph publish_data["Publish Data"]
-    alignments
+    assemblies
     end
 
     %% list all the published reports files
@@ -112,17 +77,16 @@ flowchart LR
         Reads
         MultiQC
     ")))
-    alignments_mqc((("
-        Alignments
-        MultiQC
-    ")))
     full_mqc((("
         Full MultiQC
     ")))
+    assembly_reports((("
+        Assembly reports
+    ")))
 
     %% list all the published data files
-    alignments[["
-        Alignments
+    assemblies[["
+        Assemblies
     "]]
 
     %% reads processing workflow
@@ -133,27 +97,18 @@ flowchart LR
     raw_reads --- fastqc --x reads_mqc
     prealign_reads --- fastqc --x reads_mqc
     trim_reads --> trim_log --x reads_mqc
-    raw_reads --- seq_depth --x reads_mqc
-    prealign_reads --- seq_depth --x reads_mqc
 
-    %% reads mapping workflow
-    genome_fasta --- map_reads
-    annotations_gtf --- map_reads
-    prealign_reads --- map_reads
+    %% genome assembly workflow
+    prealign_reads --- assemble_genomes --> contigs
+    assemble_genomes --x assemblies
 
-    %% alignments processing workflow
-    map_reads --- samtools_sort --> individual_alignments
-    individual_alignments --- gatk_MergeSamFiles --- gatk_MarkDuplicates --> merged_alignments
-    merged_alignments --x alignments
-
-    %% alignments QC workflow
-    individual_alignments --- samtools_idxstats --x alignments_mqc
-    individual_alignments --- samtools_flagstat --x alignments_mqc
-    merged_alignments --- samtools_stats --x alignments_mqc
+    %% genome assembly QC workflow
+    genome_fasta --- quast
+    annotations_gtf --- quast
+    contigs --- quast --x assembly_reports
 
     %% Full MultiQC
     reads_mqc --x full_mqc
-    alignments_mqc --x full_mqc
 ```
 
 ## Quick start
