@@ -1,3 +1,14 @@
+/**
+ * Process to run SPAdes. 
+ *
+ * Perform enome assembly with SPAdes.
+ * @see https://github.com/ablab/spades
+ *
+ * @input reads the reads channel of format [metadata, R1, R2].
+ * @emit scaffolds the scaffolds channel of format [metadata, scaffolds] where scaffolds is a file in fasta format.
+ * @emit contigs the contigs channel of format [metadata, contigs] where contigs is a file in fasta format.
+ * @emit out_dir the full output directory of format [metadata, out_dir].
+ */
 process spades {
     tag "${metadata.sampleName}"
 
