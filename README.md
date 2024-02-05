@@ -42,6 +42,9 @@ flowchart LR
     contigs[("
         Contigs
     ")]
+    scaffolds[("
+        Scaffolds
+    ")]
 
     %% list all the Nextflow processes
     fastp{"fastp"}
@@ -100,12 +103,15 @@ flowchart LR
 
     %% genome assembly workflow
     prealign_reads --- assemble_genomes --> contigs
+    assemble_genomes --> scaffolds
     assemble_genomes --x assemblies
 
     %% genome assembly QC workflow
     genome_fasta --- quast
     annotations_gtf --- quast
-    contigs --- quast --x assembly_reports
+    contigs --- quast
+    scaffolds --- quast
+    quast --x assembly_reports
 
     %% Full MultiQC
     reads_mqc --x full_mqc
