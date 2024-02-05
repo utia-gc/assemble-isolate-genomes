@@ -6,7 +6,7 @@
  *
  * @input contigs the contigs channel of format [metadata, contigs] where contigs is a file in fasta format.
  * @input genome the uncompressed reference genome sequence in fasta format.
- * @take annotationsGTF the uncompressed reference annotations in GTF format.
+ * @input annotationsGTF the uncompressed reference annotations in GTF format.
  * @emit report_tsv the TSV formatted report file of format [metadata, report.tsv].
  * @emit out_dir the full output directory of format [metadata, out_dir].
  */
