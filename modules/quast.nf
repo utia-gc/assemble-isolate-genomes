@@ -1,3 +1,15 @@
+/**
+ * Process to run QUAST. 
+ *
+ * Perform quality assessment of genome assemblies with QUAST.
+ * @see https://quast.sourceforge.net/docs/manual.html
+ *
+ * @input assemblies the assemblies channel of format [metadata, contigs, scaffolds] where contigs and scaffolds are files in fasta format.
+ * @input genome the uncompressed reference genome sequence in fasta format.
+ * @input annotationsGTF the uncompressed reference annotations in GTF format.
+ * @emit report_tsv the TSV formatted report file of format [metadata, report.tsv].
+ * @emit out_dir the full output directory of format [metadata, out_dir].
+ */
 process quast {
     tag "${metadata.sampleName}"
 
@@ -14,7 +26,7 @@ process quast {
     )
 
     input:
-        tuple val(metadata), path(contigs)
+        tuple val(metadata), path(contigs), path(scaffolds)
         path genome
         path annotationsGTF
 
@@ -34,6 +46,7 @@ process quast {
             -r ${genome} \\
             --features ${annotationsGTF} \\
             ${contigs} \\
+            ${scaffolds} \\
             ${args}
         """
 }

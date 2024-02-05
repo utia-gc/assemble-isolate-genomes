@@ -10,7 +10,7 @@ include { multiqc as multiqc_full } from "../modules/multiqc.nf"
  * @take reads_raw the raw reads channel of format [metadata, R1, R2].
  * @take reads_prealign the prealigned reads channel of format [metadata, R1, R2].
  * @take trim_log the log or summary file from the reads trimming tool that can be used as input for MultiQC.
- * @take contigs the channel with contigs of format [metadata, contigs fasta].
+ * @take scaffolds the scaffolds channel of format [metadata, scaffolds] where scaffolds is a file in fasta format.
  * @take genome the uncompressed reference genome sequence in fasta format.
  * @take annotationsGTF the uncompressed reference annotations in GTF format.
  */
@@ -20,6 +20,7 @@ workflow CHECK_QUALITY {
         reads_prealign
         trim_log
         contigs
+        scaffolds
         genome
         annotationsGTF
 
@@ -33,6 +34,7 @@ workflow CHECK_QUALITY {
 
         QC_Assemblies(
             contigs,
+            scaffolds,
             genome,
             annotationsGTF
         )
