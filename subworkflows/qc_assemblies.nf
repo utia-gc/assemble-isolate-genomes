@@ -16,13 +16,25 @@ workflow QC_Assemblies {
         annotationsGTF
 
     main:
-        // merge contigs and scaffolds into an assemblies channel
+        // collect all contigs files without metadata
         contigs
-            .join( scaffolds )
-            .set { ch_assemblies }
+            .map { metadata, contigs ->
+                contigs
+            }
+            .collect( sort: true )
+            .set { ch_contigs_collection }
+
+        // collect all scaffolds files without metadata
+        scaffolds
+            .map { metadata, scaffolds ->
+                scaffolds
+            }
+            .collect( sort: true )
+            .set { ch_scaffolds_collection }
 
         quast(
-            ch_assemblies,
+            ch_contigs_collection,
+            ch_scaffolds_collection,
             genome,
             annotationsGTF
         )
