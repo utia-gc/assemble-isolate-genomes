@@ -41,6 +41,7 @@ workflow CHECK_QUALITY {
 
         ch_multiqc_full = Channel.empty()
             .concat(ch_multiqc_reads)
+            .concat(QC_Assemblies.out.multiqc)
             .collect( sort: true )
         multiqc_full(
             ch_multiqc_full,
