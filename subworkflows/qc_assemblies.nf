@@ -1,4 +1,5 @@
-include { quast } from '../modules/quast.nf'
+include { multiqc as multiqc_assemblies } from '../modules/multiqc.nf'
+include { quast                         } from '../modules/quast.nf'
 
 /**
  * Subworkflow to perform QC on genome assemblies.
@@ -38,4 +39,17 @@ workflow QC_Assemblies {
             genome,
             annotationsGTF
         )
+
+        ch_multiqc_assemblies = Channel.empty()
+            .concat(quast.out.report_tsv)
+            .collect( sort: true )
+
+        multiqc_assemblies(
+            ch_multiqc_assemblies,
+            file("${projectDir}/assets/multiqc_config.yaml"),
+            'assemblies'
+        )
+
+        emit:
+            multiqc = ch_multiqc_assemblies
 }
