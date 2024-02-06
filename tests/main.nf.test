@@ -130,6 +130,8 @@ nextflow_pipeline {
 
 
     test("main.nf succeeds with default `nf_test` params") {
+        tag 'full'
+
         // instantiate helper objects
         def readsSELane1 = new ReadsSELane1()
         def readsSELane2 = new ReadsSELane2()
@@ -140,99 +142,6 @@ nextflow_pipeline {
             params {
                 publishDirReports = "${outputDir}/reports"
                 publishDirData    = "${outputDir}/data"
-            }
-        }
-
-        then {
-            // test workflow status
-            assert workflow.success
-            assert workflow.trace.succeeded().size() == 25
-
-            // test raw FastQC html reports and zip files published to reports dir
-            assert path("${params.publishDirReports}/.fastqc/${readsSELane1.getStemName()}_raw_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsSELane1.getStemName()}_raw_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsSELane2.getStemName()}_raw_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsSELane2.getStemName()}_raw_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_raw_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_raw_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_raw_R2_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_raw_R2_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_raw_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_raw_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_raw_R2_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_raw_R2_fastqc.zip").exists()
-            // test prealign FastQC html reports and zip files published to reports dir
-            assert path("${params.publishDirReports}/.fastqc/${readsSELane1.getStemName()}_trimmed_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsSELane1.getStemName()}_trimmed_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsSELane2.getStemName()}_trimmed_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsSELane2.getStemName()}_trimmed_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_trimmed_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_trimmed_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_trimmed_R2_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_trimmed_R2_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_trimmed_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_trimmed_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_trimmed_R2_fastqc.html").exists()
-            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_trimmed_R2_fastqc.zip").exists()
-            // test trimmed reads logs published to reports dir
-            assert path("${params.publishDirReports}/.reads/trim/${readsSELane1.getStemName()}_fastp.json").exists()
-            assert path("${params.publishDirReports}/.reads/trim/${readsSELane2.getStemName()}_fastp.json").exists()
-            assert path("${params.publishDirReports}/.reads/trim/${readsPELane1.getStemName()}_fastp.json").exists()
-            assert path("${params.publishDirReports}/.reads/trim/${readsPELane2.getStemName()}_fastp.json").exists()
-            // test assemblies outputs published to data dir
-            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/scaffolds.fasta").exists()
-            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/contigs.fasta").exists()
-            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
-            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/assembly_graph.fastg").exists()
-            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/contigs.paths").exists()
-            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/scaffolds.paths").exists()
-            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/scaffolds.fasta").exists()
-            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/contigs.fasta").exists()
-            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
-            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/assembly_graph.fastg").exists()
-            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/contigs.paths").exists()
-            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/scaffolds.paths").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/scaffolds.fasta").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/contigs.fasta").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/assembly_graph.fastg").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/contigs.paths").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/scaffolds.paths").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.fasta").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.fasta").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/assembly_graph.fastg").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.paths").exists()
-            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.paths").exists()
-            // test QUAST reports published to reports dir
-            assert path("${params.publishDirReports}/.assemblies/${readsSELane1.getStemName()}/report.tsv").exists()
-            assert path("${params.publishDirReports}/.assemblies/${readsSELane2.getStemName()}/report.tsv").exists()
-            assert path("${params.publishDirReports}/.assemblies/${readsPELane1.getStemName()}/report.tsv").exists()
-            assert path("${params.publishDirReports}/.assemblies/${readsPELane2.getStemName()}/report.tsv").exists()
-            // test MultiQC reports and data published to reports dir
-            assert path("${params.publishDirReports}/multiqc/reads/reads.html").exists()
-            assert path("${params.publishDirReports}/multiqc/reads/reads_data/").exists()
-            assert path("${params.publishDirReports}/multiqc/ngs_nf-test/ngs_nf-test.html").exists()
-            assert path("${params.publishDirReports}/multiqc/ngs_nf-test/ngs_nf-test_data/").exists()
-        }
-
-    }
-
-
-    test("main.nf succeeds with default `nf_test` params and uncompressed genome and annotation files.") {
-        // instantiate helper objects
-        def readsSELane1 = new ReadsSELane1()
-        def readsSELane2 = new ReadsSELane2()
-        def readsPELane1 = new ReadsPELane1()
-        def readsPELane2 = new ReadsPELane2()
-        def refs         = new RefsEnsembl()
-
-        when {
-            params {
-                publishDirReports = "${outputDir}/reports"
-                publishDirData    = "${outputDir}/data"
-                genome            = "${refs.getGenome()}"
-                annotations       = "${refs.getGTF()}"
             }
         }
 
@@ -298,13 +207,106 @@ nextflow_pipeline {
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.paths").exists()
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.paths").exists()
             // test QUAST reports published to reports dir
-            assert path("${params.publishDirReports}/.assemblies/${readsSELane1.getStemName()}/report.tsv").exists()
-            assert path("${params.publishDirReports}/.assemblies/${readsSELane2.getStemName()}/report.tsv").exists()
-            assert path("${params.publishDirReports}/.assemblies/${readsPELane1.getStemName()}/report.tsv").exists()
-            assert path("${params.publishDirReports}/.assemblies/${readsPELane2.getStemName()}/report.tsv").exists()
+            assert path("${params.publishDirReports}/.assemblies/quast/report.tsv").exists()
             // test MultiQC reports and data published to reports dir
             assert path("${params.publishDirReports}/multiqc/reads/reads.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads/reads_data/").exists()
+            assert path("${params.publishDirReports}/multiqc/assemblies/assemblies.html").exists()
+            assert path("${params.publishDirReports}/multiqc/assemblies/assemblies_data/").exists()
+            assert path("${params.publishDirReports}/multiqc/ngs_nf-test/ngs_nf-test.html").exists()
+            assert path("${params.publishDirReports}/multiqc/ngs_nf-test/ngs_nf-test_data/").exists()
+        }
+
+    }
+
+
+    test("main.nf succeeds with default `nf_test` params and uncompressed genome and annotation files.") {
+        tag 'full'
+
+        // instantiate helper objects
+        def readsSELane1 = new ReadsSELane1()
+        def readsSELane2 = new ReadsSELane2()
+        def readsPELane1 = new ReadsPELane1()
+        def readsPELane2 = new ReadsPELane2()
+        def refs         = new RefsEnsembl()
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+                genome            = "${refs.getGenome()}"
+                annotations       = "${refs.getGTF()}"
+            }
+        }
+
+        then {
+            // test workflow status
+            assert workflow.success
+            assert workflow.trace.succeeded().size() == 21
+
+            // test raw FastQC html reports and zip files published to reports dir
+            assert path("${params.publishDirReports}/.fastqc/${readsSELane1.getStemName()}_raw_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsSELane1.getStemName()}_raw_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsSELane2.getStemName()}_raw_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsSELane2.getStemName()}_raw_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_raw_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_raw_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_raw_R2_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_raw_R2_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_raw_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_raw_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_raw_R2_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_raw_R2_fastqc.zip").exists()
+            // test prealign FastQC html reports and zip files published to reports dir
+            assert path("${params.publishDirReports}/.fastqc/${readsSELane1.getStemName()}_trimmed_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsSELane1.getStemName()}_trimmed_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsSELane2.getStemName()}_trimmed_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsSELane2.getStemName()}_trimmed_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_trimmed_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_trimmed_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_trimmed_R2_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane1.getStemName()}_trimmed_R2_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_trimmed_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_trimmed_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_trimmed_R2_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsPELane2.getStemName()}_trimmed_R2_fastqc.zip").exists()
+            // test trimmed reads logs published to reports dir
+            assert path("${params.publishDirReports}/.reads/trim/${readsSELane1.getStemName()}_fastp.json").exists()
+            assert path("${params.publishDirReports}/.reads/trim/${readsSELane2.getStemName()}_fastp.json").exists()
+            assert path("${params.publishDirReports}/.reads/trim/${readsPELane1.getStemName()}_fastp.json").exists()
+            assert path("${params.publishDirReports}/.reads/trim/${readsPELane2.getStemName()}_fastp.json").exists()
+            // test assemblies outputs published to data dir
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane1.getStemName()}/scaffolds.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsSELane2.getStemName()}/scaffolds.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane1.getStemName()}/scaffolds.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.fasta").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/assembly_graph_with_scaffolds.gfa").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/assembly_graph.fastg").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.paths").exists()
+            assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.paths").exists()
+            // test QUAST reports published to reports dir
+            assert path("${params.publishDirReports}/.assemblies/quast/report.tsv").exists()
+            // test MultiQC reports and data published to reports dir
+            assert path("${params.publishDirReports}/multiqc/reads/reads.html").exists()
+            assert path("${params.publishDirReports}/multiqc/reads/reads_data/").exists()
+            assert path("${params.publishDirReports}/multiqc/assemblies/assemblies.html").exists()
+            assert path("${params.publishDirReports}/multiqc/assemblies/assemblies_data/").exists()
             assert path("${params.publishDirReports}/multiqc/ngs_nf-test/ngs_nf-test.html").exists()
             assert path("${params.publishDirReports}/multiqc/ngs_nf-test/ngs_nf-test_data/").exists()
         }
@@ -313,6 +315,8 @@ nextflow_pipeline {
 
 
     test("main.nf succeeds -- cutadapt.") {
+        tag 'full'
+
         // instantiate helper objects
         def readsSELane1 = new ReadsSELane1()
         def readsSELane2 = new ReadsSELane2()
@@ -332,7 +336,7 @@ nextflow_pipeline {
         then {
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 25
+            assert workflow.trace.succeeded().size() == 23
 
             // test raw FastQC html reports and zip files published to reports dir
             assert path("${params.publishDirReports}/.fastqc/${readsSELane1.getStemName()}_raw_R1_fastqc.html").exists()
@@ -391,13 +395,12 @@ nextflow_pipeline {
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/contigs.paths").exists()
             assert path("${params.publishDirData}/assemblies/${readsPELane2.getStemName()}/scaffolds.paths").exists()
             // test QUAST reports published to reports dir
-            assert path("${params.publishDirReports}/.assemblies/${readsSELane1.getStemName()}/report.tsv").exists()
-            assert path("${params.publishDirReports}/.assemblies/${readsSELane2.getStemName()}/report.tsv").exists()
-            assert path("${params.publishDirReports}/.assemblies/${readsPELane1.getStemName()}/report.tsv").exists()
-            assert path("${params.publishDirReports}/.assemblies/${readsPELane2.getStemName()}/report.tsv").exists()
+            assert path("${params.publishDirReports}/.assemblies/quast/report.tsv").exists()
             // test MultiQC reports and data published to reports dir
             assert path("${params.publishDirReports}/multiqc/reads/reads.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads/reads_data/").exists()
+            assert path("${params.publishDirReports}/multiqc/assemblies/assemblies.html").exists()
+            assert path("${params.publishDirReports}/multiqc/assemblies/assemblies_data/").exists()
             assert path("${params.publishDirReports}/multiqc/ngs_nf-test/ngs_nf-test.html").exists()
             assert path("${params.publishDirReports}/multiqc/ngs_nf-test/ngs_nf-test_data/").exists()
         }

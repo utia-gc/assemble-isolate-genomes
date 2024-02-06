@@ -28,12 +28,12 @@ process spades {
         tuple val(metadata), path(reads1), path(reads2)
 
     output:
-        tuple val(metadata), path('*/scaffolds.fasta'), emit: scaffolds
-        tuple val(metadata), path('*/contigs.fasta'),   emit: contigs
-        tuple val(metadata), path('*'),                 emit: out_dir
+        tuple val(metadata), path("${stemName}_scaffolds.fasta"), emit: scaffolds
+        tuple val(metadata), path("${stemName}_contigs.fasta"),   emit: contigs
+        tuple val(metadata), path("${stemName}"),                 emit: out_dir
 
     script:
-        String stemName = MetadataUtils.buildStemName(metadata)
+        stemName = MetadataUtils.buildStemName(metadata)
 
         String args = new Args(task.ext).buildArgsString()
 
@@ -44,6 +44,9 @@ process spades {
                 -o ${stemName} \\
                 -s ${reads1} \\
                 ${args}
+
+            ln -s ${stemName}/scaffolds.fasta ${stemName}_scaffolds.fasta
+            ln -s ${stemName}/scaffolds.fasta ${stemName}_contigs.fasta
             """
         } else if(metadata.readType == 'paired') {
             """
@@ -53,6 +56,9 @@ process spades {
                 -1 ${reads1} \\
                 -2 ${reads2} \\
                 ${args}
+
+            ln -s ${stemName}/scaffolds.fasta ${stemName}_scaffolds.fasta
+            ln -s ${stemName}/scaffolds.fasta ${stemName}_contigs.fasta
             """
         }
 }

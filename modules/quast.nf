@@ -7,12 +7,10 @@
  * @input assemblies the assemblies channel of format [metadata, contigs, scaffolds] where contigs and scaffolds are files in fasta format.
  * @input genome the uncompressed reference genome sequence in fasta format.
  * @input annotationsGTF the uncompressed reference annotations in GTF format.
- * @emit report_tsv the TSV formatted report file of format [metadata, report.tsv].
- * @emit out_dir the full output directory of format [metadata, out_dir].
+ * @emit report_tsv the TSV formatted report file.
+ * @emit out_dir the full output directory.
  */
 process quast {
-    tag "${metadata.sampleName}"
-
     label 'quast'
 
     label 'med_cpu'
@@ -26,23 +24,22 @@ process quast {
     )
 
     input:
-        tuple val(metadata), path(contigs), path(scaffolds)
+        path contigs
+        path scaffolds
         path genome
         path annotationsGTF
 
     output:
-        tuple val(metadata), path('*/report.tsv'), emit: report_tsv
-        tuple val(metadata), path('*'),            emit: out_dir
+        path 'quast/report.tsv', emit: report_tsv
+        path 'quast',            emit: out_dir
 
     script:
-        String stemName = MetadataUtils.buildStemName(metadata)
-
         String args = new Args(task.ext).buildArgsString()
 
         """
         quast.py \\
             --threads ${task.cpus} \\
-            --output-dir ${stemName} \\
+            --output-dir quast \\
             -r ${genome} \\
             --features ${annotationsGTF} \\
             ${contigs} \\
