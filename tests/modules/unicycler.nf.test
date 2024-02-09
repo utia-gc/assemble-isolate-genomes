@@ -1,0 +1,88 @@
+nextflow_process {
+
+    name "Test Process unicycler"
+    script "modules/unicycler.nf"
+    process "unicycler"
+
+    test("unicycler produces an assembly -- SE reads") {
+        // instantiate helper objects
+        def readsLane1 = new ReadsSELane1()
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+            }
+            process {
+                """
+                input[0] = [
+                    [
+                        sampleName:   "${readsLane1.getSampleName()}",
+                        lane:         "${readsLane1.getLane()}",
+                        readType:     "${readsLane1.getReadType()}",
+                        trimStatus:   "raw",
+                    ],
+                    file("${readsLane1.getR1()}"),
+                    file("${readsLane1.getR2()}")
+                ]
+                """
+            }
+        }
+
+        then {
+            //test process success
+            assert process.success
+
+            // test assembly fasta
+            with(process.out.assembly_fasta) {
+                assert size() == 1
+                with(get(0)) {
+                    assert get(1) ==~ /^.*\/${readsLane1.getStemName()}_assembly.fasta/
+                }
+            }
+        }
+
+    }
+
+
+    test("unicycler produces an assembly -- PE reads") {
+        // instantiate helper objects
+        def readsLane1 = new ReadsPELane1()
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+            }
+            process {
+                """
+                input[0] = [
+                    [
+                        sampleName:   "${readsLane1.getSampleName()}",
+                        lane:         "${readsLane1.getLane()}",
+                        readType:     "${readsLane1.getReadType()}",
+                        trimStatus:   "raw",
+                    ],
+                    file("${readsLane1.getR1()}"),
+                    file("${readsLane1.getR2()}")
+                ]
+                """
+            }
+        }
+
+        then {
+            //test process success
+            assert process.success
+
+            // test assembly fasta
+            with(process.out.assembly_fasta) {
+                assert size() == 1
+                with(get(0)) {
+                    assert get(1) ==~ /^.*\/${readsLane1.getStemName()}_assembly.fasta/
+                }
+            }
+        }
+
+    }
+
+}
