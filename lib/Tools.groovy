@@ -23,19 +23,18 @@ class Tools {
 
 
     /**
-     *  Enum representing tools for mapping reads.
+     *  Enum representing tools for genome assembly.
      */
-    enum Map {
-        BWAMEM2,
-        STAR
+    enum Assemble {
+        SPADES
 
         /**
-         * Check if a given tool name matches a valid map tool.
+         * Check if a given tool name matches a valid assemble tool.
          *
          * @param tool The tool to check for.
-         * @return true if the tool matches any valid map tool, otherwise false.
+         * @return true if the tool matches any valid assemble tool, otherwise false.
          */
-        static boolean isMapTool(String tool) {
+        static boolean isAssembleTool(String tool) {
             return values().any {it.name().equalsIgnoreCase(tool)}
         }
     }
