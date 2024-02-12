@@ -12,9 +12,15 @@ workflow ASSEMBLE_GENOMES {
         reads
 
     main:
-        spades(reads)
+        switch( Tools.Assemble.valueOf(params.tools.assemble.toUpperCase()) ) {
+            case Tools.Assemble.SPADES:
+                spades(reads)
+                ch_contigs   = spades.out.contigs
+                ch_scaffolds = spades.out.scaffolds
+                break
+        }
 
     emit:
-        contigs   = spades.out.contigs
-        scaffolds = spades.out.scaffolds
+        contigs   = ch_contigs
+        scaffolds = ch_scaffolds
 }
