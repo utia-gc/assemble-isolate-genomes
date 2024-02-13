@@ -13,6 +13,7 @@ workflow QC_Assemblies {
     take:
         contigs
         scaffolds
+        assemblies
         genome
         annotationsGTF
 
@@ -33,9 +34,23 @@ workflow QC_Assemblies {
             .collect( sort: true )
             .set { ch_scaffolds_collection }
 
+        // collect all assemblies files without metadata
+        assemblies
+            .map { metadata, assemblies ->
+                assemblies
+            }
+            .collect( sort: true )
+            .set { ch_assemblies_collection }
+
+        // collect all the contigs, scaffolds, assemblies together
+        ch_assemblies = Channel.empty()
+            .concat(ch_contigs_collection)
+            .concat(ch_scaffolds_collection)
+            .concat(ch_assemblies_collection)
+            .collect( sort: true )
+
         quast(
-            ch_contigs_collection,
-            ch_scaffolds_collection,
+            ch_assemblies,
             genome,
             annotationsGTF
         )

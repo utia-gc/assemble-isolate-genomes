@@ -26,7 +26,8 @@ class Tools {
      *  Enum representing tools for genome assembly.
      */
     enum Assemble {
-        SPADES
+        SPADES,
+        UNICYCLER
 
         /**
          * Check if a given tool name matches a valid assemble tool.

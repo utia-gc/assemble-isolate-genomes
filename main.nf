@@ -42,8 +42,9 @@ workflow {
     ch_trim_log        = PROCESS_READS.out.trim_log
 
     ASSEMBLE_GENOMES(ch_reads_pre_align)
-    ch_contigs   = ASSEMBLE_GENOMES.out.contigs
-    ch_scaffolds = ASSEMBLE_GENOMES.out.scaffolds
+    ch_contigs    = ASSEMBLE_GENOMES.out.contigs
+    ch_scaffolds  = ASSEMBLE_GENOMES.out.scaffolds
+    ch_assemblies = ASSEMBLE_GENOMES.out.assemblies
 
     CHECK_QUALITY(
         ch_reads_raw,
@@ -51,6 +52,7 @@ workflow {
         ch_trim_log,
         ch_contigs,
         ch_scaffolds,
+        ch_assemblies,
         ch_genome,
         ch_annotations
     )
