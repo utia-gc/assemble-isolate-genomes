@@ -21,6 +21,7 @@ workflow CHECK_QUALITY {
         trim_log
         contigs
         scaffolds
+        assemblies
         genome
         annotationsGTF
 
@@ -35,6 +36,7 @@ workflow CHECK_QUALITY {
         QC_Assemblies(
             contigs,
             scaffolds,
+            assemblies,
             genome,
             annotationsGTF
         )

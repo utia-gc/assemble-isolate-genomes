@@ -14,6 +14,7 @@ static void validateRequiredParams(params, log) {
     validateGenome(params, log)
     validateAnnotations(params, log)
     validateTrimTool(params, log)
+    validateAssembleTool(params, log)
 }
 
 
@@ -118,6 +119,32 @@ static void validateTrimTool(params, log) {
         }
     } else {
         log.error "Parameter 'tools.trim' is required but was not provided."
+        System.exit(64)
+    }
+}
+
+
+/**
+ * Validate assemble tool.
+ *
+ * Check that assemble tool param exists and is a valid assemble tool.
+ * Throw exit status 64 if otherwise.
+ *
+ * @param params The params for the Nextflow pipeline.
+ * @param log The Nextflow log object.
+ *
+ * @return null
+ */
+static void validateAssembleTool(params, log) {
+    if (params.tools.assemble) {
+        if (Tools.Assemble.isAssembleTool(params.tools.assemble)) {
+            log.info "Using assemble tool '${params.tools.assemble}'"
+        } else {
+            log.error "'${params.tools.assemble}' is not a valid assemble tool."
+            System.exit(64)
+        }
+    } else {
+        log.error "Parameter 'tools.assemble' is required but was not provided."
         System.exit(64)
     }
 }

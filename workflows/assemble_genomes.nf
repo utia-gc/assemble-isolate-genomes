@@ -1,4 +1,5 @@
-include { spades } from '../modules/spades.nf'
+include { spades    } from '../modules/spades.nf'
+include { unicycler } from '../modules/unicycler.nf'
 
 /**
  * Workflow to assemble genomes from reads.
@@ -12,9 +13,24 @@ workflow ASSEMBLE_GENOMES {
         reads
 
     main:
-        spades(reads)
+        switch( Tools.Assemble.valueOf(params.tools.assemble.toUpperCase()) ) {
+            case Tools.Assemble.SPADES:
+                spades(reads)
+                ch_contigs    = spades.out.contigs
+                ch_scaffolds  = spades.out.scaffolds
+                ch_assemblies = Channel.empty()
+                break
+
+            case Tools.Assemble.UNICYCLER:
+                unicycler(reads)
+                ch_contigs    = Channel.empty()
+                ch_scaffolds  = Channel.empty()
+                ch_assemblies = unicycler.out.assembly_fasta
+                break
+        }
 
     emit:
-        contigs   = spades.out.contigs
-        scaffolds = spades.out.scaffolds
+        contigs    = ch_contigs
+        scaffolds  = ch_scaffolds
+        assemblies = ch_assemblies
 }

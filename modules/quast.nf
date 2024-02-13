@@ -4,7 +4,7 @@
  * Perform quality assessment of genome assemblies with QUAST.
  * @see https://quast.sourceforge.net/docs/manual.html
  *
- * @input assemblies the assemblies channel of format [metadata, contigs, scaffolds] where contigs and scaffolds are files in fasta format.
+ * @input assemblies the collected assemblies channel containing contigs, scaffolds, assemblies, etc. in fasta format.
  * @input genome the uncompressed reference genome sequence in fasta format.
  * @input annotationsGTF the uncompressed reference annotations in GTF format.
  * @emit report_tsv the TSV formatted report file.
@@ -24,8 +24,7 @@ process quast {
     )
 
     input:
-        path contigs
-        path scaffolds
+        path assemblies
         path genome
         path annotationsGTF
 
@@ -42,8 +41,7 @@ process quast {
             --output-dir quast \\
             -r ${genome} \\
             --features ${annotationsGTF} \\
-            ${contigs} \\
-            ${scaffolds} \\
+            ${assemblies} \\
             ${args}
         """
 }
