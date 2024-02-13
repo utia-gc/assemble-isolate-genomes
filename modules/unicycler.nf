@@ -7,11 +7,18 @@ process unicycler {
     label 'big_mem'
     label 'big_time'
 
+    publishDir(
+        path:    "${params.publishDirData}/assemblies",
+        mode:    "${params.publishMode}",
+        pattern: '*'
+    )
+
     input:
         tuple val(metadata), path(reads1), path(reads2)
 
     output:
         tuple val(metadata), path("${stemName}_assembly.fasta"), emit: assembly_fasta
+        tuple val(metadata), path('*'),                          emit: out_dir
 
     script:
         stemName = MetadataUtils.buildStemName(metadata)
